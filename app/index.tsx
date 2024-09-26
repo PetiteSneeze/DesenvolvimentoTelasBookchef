@@ -9,10 +9,10 @@ const backgroundImage = require('../assets/images/kitchen_background_image.png')
 export default function Index() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [senhaVisivel, setSenhaVisivel] = useState(false);
+  const [senhaVisivel, setSenhaVisivel] = useState(false); // Estado para controlar a visibilidade da senha
 
   const login = () => {
-    router.push('./(tabs)/Eventos');
+    router.push('/(tabs)/eventos');
   }
 
   const cadastro = () => {
@@ -20,7 +20,8 @@ export default function Index() {
   }
 
   const toggleSenhaVisivel = () => {
-    setSenhaVisivel(!senhaVisivel); 
+    setSenhaVisivel(!senhaVisivel); // Alterna a visibilidade da senha
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -43,7 +44,7 @@ export default function Index() {
                 style={styles.inputSenha} 
                 placeholder="Senha" 
                 placeholderTextColor="rgba(137, 137, 137, 0.65)"
-                secureTextEntry={!senhaVisivel} 
+                secureTextEntry={!senhaVisivel} // Alternar entre exibir e esconder a senha
                 value={senha}
                 onChangeText={e => setSenha(e)}
               />
@@ -137,19 +138,19 @@ const styles = StyleSheet.create({
   },
   forgotPassword: {
     fontSize: 12,
-    color: "#007BFF", 
+    color: "#007BFF", // Cor de link
     textDecorationLine: 'underline', // Adiciona sublinhado
     marginBottom: 15,
   },
   button: {
-    backgroundColor: 'rgba(217, 217, 217, 0.8)',
+    backgroundColor: 'rgba(217, 217, 217, 0.8)', // Cor com 80% de opacidade
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 40,
     marginTop: 15,
     width: '60%',
     alignItems: 'center',
-    borderColor: 'rgba(137, 137, 137, 0.8)', 
+    borderColor: 'rgba(137, 137, 137, 0.8)', // Contorno com 80% de opacidade
     borderWidth: 3,
   },
   buttonText: {
@@ -158,4 +159,3 @@ const styles = StyleSheet.create({
     fontFamily: 'Kiwi Maru', 
   },
 });
-}

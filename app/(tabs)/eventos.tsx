@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 export default function Eventos() {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Eventos</Text>
+            <Text style={styles.title}>eventos</Text>
         </View>
     );
 }
