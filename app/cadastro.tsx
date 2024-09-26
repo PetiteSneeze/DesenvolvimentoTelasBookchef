@@ -11,10 +11,10 @@ export default function Cadastro() {
   }
 
   return (
-    <ImageBackground
-    source={require('../assets/images/kitchen_background_image.png')}
-      style={styles.background}
-    >
+    //<ImageBackground
+    //source={require('../assets/images/kitchen_background_image.png')}
+      //style={styles.background}
+    //>
       <View style={styles.container}>
         <Text style={styles.title}>CADASTRO</Text>
         
@@ -39,7 +39,7 @@ export default function Cadastro() {
           <Text style={styles.buttonText}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
-    </ImageBackground>
+    //</ImageBackground>//
   );
 }
 

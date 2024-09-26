@@ -2,6 +2,9 @@ import { Text, View, TouchableOpacity, StyleSheet, TextInput, ImageBackground } 
 import { useState } from "react";
 import { router } from "expo-router";
 
+// Importando a imagem de fundo
+const backgroundImage = require('../assets/images/kitchen_background_image.png');  // Certifique-se que o caminho da imagem está correto
+
 export default function Index() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -15,29 +18,31 @@ export default function Index() {
   }
 
   return (
-    <ImageBackground
-    source={require('../assets/images/kitchen_background_image.png')}
-      style={styles.background}
-    >
+    <ImageBackground source={backgroundImage} style={styles.background}>
       <View style={styles.container}>
-        <Text style={styles.title}>LOGIN</Text>
+        <Text style={styles.mainTitle}>BookChef</Text>
+        <Text style={styles.subTitle}>A sua receita</Text>
+        <Text style={styles.loginTitle}>Login</Text>
 
         <View style={styles.inputContainer}>
           <TextInput 
             style={styles.input} 
             placeholder="Email" 
-            placeholderTextColor="#888"
+            placeholderTextColor="rgba(137, 137, 137, 0.65)"
             value={email}
             onChangeText={e => setEmail(e)}
           />
           <TextInput 
             style={styles.input} 
             placeholder="Senha" 
-            placeholderTextColor="#888"
+            placeholderTextColor="rgba(137, 137, 137, 0.65)"
             secureTextEntry={true}
             value={senha}
             onChangeText={e => setSenha(e)}
           />
+          <TouchableOpacity>
+            <Text style={styles.forgotPassword}>Esqueci a senha</Text>
+          </TouchableOpacity>
         </View>
 
         <TouchableOpacity style={styles.button} onPress={login}>
@@ -55,19 +60,31 @@ export default function Index() {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    resizeMode: 'cover', // Garante que a imagem cubra toda a tela
+    resizeMode: 'cover',  
   },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Transparência para destacar os campos
-    padding: 20,
+    padding: 20,  
   },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginBottom: 20,
+  mainTitle: {
+    fontSize: 32,
+    fontFamily: 'Kiwi Maru', 
+    marginBottom: 5,
+    marginTop: -100, 
+    color: "#333",
+  },
+  subTitle: {
+    fontSize: 16,
+    fontFamily: 'Kiwi Maru',
+    marginBottom: 80, // Reduzir o espaçamento abaixo do subtítulo
+    color: "#333",
+  },
+  loginTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20, // Espaço entre "Login" e os campos
     color: "#333",
   },
   inputContainer: {
@@ -76,13 +93,13 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '90%',
-    borderColor: '#CCC',
-    borderWidth: 1,
+    borderColor: 'rgba(137, 137, 137, 0.65)', // Contorno na mesma cor
+    borderWidth: 3,
     marginBottom: 15,
     paddingVertical: 10,
     paddingHorizontal: 15,
-    borderRadius: 8,
-    backgroundColor: "#fff",
+    borderRadius: 10,
+    backgroundColor: "rgba(217, 217, 217, 0.65)", // Fundo com 65% de opacidade
     fontSize: 16,
     color: "#333",
     shadowColor: '#000',
@@ -91,18 +108,25 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 3,
   },
+  forgotPassword: {
+    fontSize: 12,
+    color: "#333",
+    marginBottom: 15,
+  },
   button: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 10,
+    backgroundColor: 'rgba(217, 217, 217, 0.65)', // Cor igual ao dos campos de email e senha
+    borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 40,
     marginTop: 15,
     width: '60%',
     alignItems: 'center',
+    borderColor: 'rgba(137, 137, 137, 0.65)', // Contorno no botão
+    borderWidth: 3,
   },
   buttonText: {
-    fontSize: 18,
-    color: '#fff',
-    fontWeight: "bold",
+    fontSize: 16,
+    color: '#000', // Texto em preto
+    fontFamily: 'Kiwi Maru', // Mesma fonte usada no título
   },
 });
