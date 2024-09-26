@@ -14,36 +14,36 @@ export default function LayoutTab() {
             }}
         >
             {/* Tela de home */}
-            <Tabs.Screen 
-                name="eventos" 
+            <Tabs.Screen
+                name="eventos"
                 options={{
-                    title: "Eventos",
+                    title: "Home",
                     tabBarIcon: ({ color }) => (
-                        <Ionicons name="calendar" size={26} color={color} />
+                        <Ionicons name="home" size={26} color={color} />  // Alterado de "calendar" para "home"
                     )
                 }}
             />
 
             {/* Tela de Receitas */}
-            <Tabs.Screen 
-                name="receitas" 
+            <Tabs.Screen
+                name="receitas"
                 options={{
                     title: "Receitas",
                     tabBarIcon: ({ color }) => (
                         <FontAwesome name="book" size={26} color={color} />
                     ),
-                }} 
+                }}
             />
 
             {/* Tela de Perfil */}
-            <Tabs.Screen 
-                name="perfil" 
+            <Tabs.Screen
+                name="perfil"
                 options={{
                     title: "Perfil",
                     tabBarIcon: ({ color }) => (
                         <FontAwesome5 name="user" size={26} color={color} />
                     ),
-                }} 
+                }}
             />
         </Tabs>
     );

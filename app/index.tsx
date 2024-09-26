@@ -1,18 +1,18 @@
 import { Text, View, TouchableOpacity, StyleSheet, TextInput, ImageBackground, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useState } from "react";
-import { Ionicons } from '@expo/vector-icons'; // Importar ícones do Ionicons
+import { Ionicons } from '@expo/vector-icons'; 
 import { router } from "expo-router";
 
-// Importando a imagem de fundo
-const backgroundImage = require('../assets/images/kitchen_background_image.png');  // Certifique-se que o caminho da imagem está correto
+
+const backgroundImage = require('../assets/images/kitchen_background_image.png');  
 
 export default function Index() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [senhaVisivel, setSenhaVisivel] = useState(false); // Estado para controlar a visibilidade da senha
+  const [senhaVisivel, setSenhaVisivel] = useState(false);
 
   const login = () => {
-    router.push('/(tabs)/eventos');
+    router.push('./(tabs)/eventos');
   }
 
   const cadastro = () => {
@@ -20,8 +20,7 @@ export default function Index() {
   }
 
   const toggleSenhaVisivel = () => {
-    setSenhaVisivel(!senhaVisivel); // Alterna a visibilidade da senha
-  }
+    setSenhaVisivel(!senhaVisivel); 
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -44,7 +43,7 @@ export default function Index() {
                 style={styles.inputSenha} 
                 placeholder="Senha" 
                 placeholderTextColor="rgba(137, 137, 137, 0.65)"
-                secureTextEntry={!senhaVisivel} // Alternar entre exibir e esconder a senha
+                secureTextEntry={!senhaVisivel} 
                 value={senha}
                 onChangeText={e => setSenha(e)}
               />
@@ -138,19 +137,19 @@ const styles = StyleSheet.create({
   },
   forgotPassword: {
     fontSize: 12,
-    color: "#007BFF", // Cor de link
-    textDecorationLine: 'underline', // Adiciona sublinhado
+    color: "#007BFF", 
+    textDecorationLine: 'underline', 
     marginBottom: 15,
   },
   button: {
-    backgroundColor: 'rgba(217, 217, 217, 0.8)', // Cor com 80% de opacidade
+    backgroundColor: 'rgba(217, 217, 217, 0.8)',
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 40,
     marginTop: 15,
     width: '60%',
     alignItems: 'center',
-    borderColor: 'rgba(137, 137, 137, 0.8)', // Contorno com 80% de opacidade
+    borderColor: 'rgba(137, 137, 137, 0.8)', 
     borderWidth: 3,
   },
   buttonText: {
@@ -159,3 +158,4 @@ const styles = StyleSheet.create({
     fontFamily: 'Kiwi Maru', 
   },
 });
+}
