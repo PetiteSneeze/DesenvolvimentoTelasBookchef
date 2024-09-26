@@ -13,7 +13,7 @@ export default function LayoutTab() {
                 headerShown: false,
             }}
         >
-            {/* Tela de Eventos */}
+            {/* Tela de home */}
             <Tabs.Screen 
                 name="eventos" 
                 options={{

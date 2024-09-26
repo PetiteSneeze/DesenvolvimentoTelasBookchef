@@ -1,5 +1,6 @@
-import { Text, View, TouchableOpacity, StyleSheet, TextInput, ImageBackground } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, TextInput, ImageBackground, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useState } from "react";
+import { Ionicons } from '@expo/vector-icons'; // Importar ícones do Ionicons
 import { router } from "expo-router";
 
 // Importando a imagem de fundo
@@ -8,52 +9,63 @@ const backgroundImage = require('../assets/images/kitchen_background_image.png')
 export default function Index() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [senhaVisivel, setSenhaVisivel] = useState(false);
 
   const login = () => {
-    router.push('/(tabs)/eventos');
+    router.push('./(tabs)/Eventos');
   }
 
   const cadastro = () => {
     router.push('/cadastro');
   }
 
-  return (
-    <ImageBackground source={backgroundImage} style={styles.background}>
-      <View style={styles.container}>
-        <Text style={styles.mainTitle}>BookChef</Text>
-        <Text style={styles.subTitle}>A sua receita</Text>
-        <Text style={styles.loginTitle}>Login</Text>
+  const toggleSenhaVisivel = () => {
+    setSenhaVisivel(!senhaVisivel); 
 
-        <View style={styles.inputContainer}>
-          <TextInput 
-            style={styles.input} 
-            placeholder="Email" 
-            placeholderTextColor="rgba(137, 137, 137, 0.65)"
-            value={email}
-            onChangeText={e => setEmail(e)}
-          />
-          <TextInput 
-            style={styles.input} 
-            placeholder="Senha" 
-            placeholderTextColor="rgba(137, 137, 137, 0.65)"
-            secureTextEntry={true}
-            value={senha}
-            onChangeText={e => setSenha(e)}
-          />
-          <TouchableOpacity>
-            <Text style={styles.forgotPassword}>Esqueci a senha</Text>
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ImageBackground source={backgroundImage} style={styles.background}>
+        <View style={styles.container}>
+          <Text style={styles.mainTitle}>BookChef</Text>
+          <Text style={styles.subTitle}>A sua receita</Text>
+          <Text style={styles.loginTitle}>Login</Text>
+
+          <View style={styles.inputContainer}>
+            <TextInput 
+              style={styles.input} 
+              placeholder="Email" 
+              placeholderTextColor="rgba(137, 137, 137, 0.65)"
+              value={email}
+              onChangeText={e => setEmail(e)}
+            />
+            <View style={styles.passwordContainer}>
+              <TextInput 
+                style={styles.inputSenha} 
+                placeholder="Senha" 
+                placeholderTextColor="rgba(137, 137, 137, 0.65)"
+                secureTextEntry={!senhaVisivel} 
+                value={senha}
+                onChangeText={e => setSenha(e)}
+              />
+              <TouchableOpacity onPress={toggleSenhaVisivel} style={styles.eyeIcon}>
+                <Ionicons name={senhaVisivel ? "eye-off" : "eye"} size={24} color="rgba(137, 137, 137, 0.65)" />
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity>
+              <Text style={styles.forgotPassword}>Esqueci a senha</Text>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity style={styles.button} onPress={login}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.button} onPress={cadastro}>
+            <Text style={styles.buttonText}>Cadastre-se</Text>
           </TouchableOpacity>
         </View>
-
-        <TouchableOpacity style={styles.button} onPress={login}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.button} onPress={cadastro}>
-          <Text style={styles.buttonText}>Cadastrar</Text>
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
+      </ImageBackground>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -78,13 +90,13 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: 16,
     fontFamily: 'Kiwi Maru',
-    marginBottom: 80, // Reduzir o espaçamento abaixo do subtítulo
+    marginBottom: 80, 
     color: "#333",
   },
   loginTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20, // Espaço entre "Login" e os campos
+    marginBottom: 20, 
     color: "#333",
   },
   inputContainer: {
@@ -93,40 +105,57 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '90%',
-    borderColor: 'rgba(137, 137, 137, 0.65)', // Contorno na mesma cor
+    borderColor: 'rgba(137, 137, 137, 0.65)', 
     borderWidth: 3,
     marginBottom: 15,
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 10,
-    backgroundColor: "rgba(217, 217, 217, 0.65)", // Fundo com 65% de opacidade
+    backgroundColor: "rgba(217, 217, 217, 0.65)", 
     fontSize: 16,
     color: "#333",
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
+  },
+  passwordContainer: {
+    width: '90%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: 'rgba(137, 137, 137, 0.65)',
+    borderWidth: 3,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    backgroundColor: "rgba(217, 217, 217, 0.65)", 
+    marginBottom: 15,
+  },
+  inputSenha: {
+    flex: 1,
+    fontSize: 16,
+    color: "#333",
+  },
+  eyeIcon: {
+    marginLeft: 10,
   },
   forgotPassword: {
     fontSize: 12,
-    color: "#333",
+    color: "#007BFF", 
+    textDecorationLine: 'underline', // Adiciona sublinhado
     marginBottom: 15,
   },
   button: {
-    backgroundColor: 'rgba(217, 217, 217, 0.65)', // Cor igual ao dos campos de email e senha
+    backgroundColor: 'rgba(217, 217, 217, 0.8)',
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 40,
     marginTop: 15,
     width: '60%',
     alignItems: 'center',
-    borderColor: 'rgba(137, 137, 137, 0.65)', // Contorno no botão
+    borderColor: 'rgba(137, 137, 137, 0.8)', 
     borderWidth: 3,
   },
   buttonText: {
     fontSize: 16,
-    color: '#000', // Texto em preto
-    fontFamily: 'Kiwi Maru', // Mesma fonte usada no título
+    color: '#000', 
+    fontFamily: 'Kiwi Maru', 
   },
 });
+}
