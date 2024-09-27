@@ -12,7 +12,7 @@ export default function Index() {
   const [senhaVisivel, setSenhaVisivel] = useState(false);
 
   const login = () => {
-    router.push('./(tabs)/eventos');
+    router.push('./(tabs)/home');
   }
 
   const cadastro = () => {
@@ -21,6 +21,7 @@ export default function Index() {
 
   const toggleSenhaVisivel = () => {
     setSenhaVisivel(!senhaVisivel); 
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -158,4 +159,4 @@ const styles = StyleSheet.create({
     fontFamily: 'Kiwi Maru', 
   },
 });
-}
+

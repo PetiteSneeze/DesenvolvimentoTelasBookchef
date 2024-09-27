@@ -7,31 +7,20 @@ export default function LayoutTab() {
     return (
         <Tabs
             screenOptions={{
-                tabBarActiveTintColor: '#FF6347',  // Cor que remete a receitas (tomate)
+                tabBarActiveTintColor: '#FF6347',  
                 tabBarInactiveTintColor: '#777',
-                tabBarStyle: { backgroundColor: '#FFE4C4' }, // Fundo claro que remete a ingredientes (tom neutro)
+                tabBarStyle: { backgroundColor: '#FFE4C4' }, 
                 headerShown: false,
             }}
         >
             {/* Tela de home */}
             <Tabs.Screen
-                name="eventos"
+                name="home"
                 options={{
                     title: "Home",
                     tabBarIcon: ({ color }) => (
-                        <Ionicons name="home" size={26} color={color} />  // Alterado de "calendar" para "home"
+                        <Ionicons name="home" size={26} color={color} /> 
                     )
-                }}
-            />
-
-            {/* Tela de Receitas */}
-            <Tabs.Screen
-                name="receitas"
-                options={{
-                    title: "Receitas",
-                    tabBarIcon: ({ color }) => (
-                        <FontAwesome name="book" size={26} color={color} />
-                    ),
                 }}
             />
 
@@ -45,6 +34,18 @@ export default function LayoutTab() {
                     ),
                 }}
             />
+
+             {/* Tela de Receitas */}
+             <Tabs.Screen
+                name="receitas"
+                options={{
+                    title: "Receitas",
+                    tabBarIcon: ({ color }) => (
+                        <FontAwesome name="book" size={26} color={color} />
+                    ),
+                }}
+            />
+
         </Tabs>
     );
 }

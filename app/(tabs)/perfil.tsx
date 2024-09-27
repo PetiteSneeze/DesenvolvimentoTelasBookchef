@@ -16,14 +16,12 @@ export default function Perfil() {
     </View>
   );
 }
-
-//
 const styles = StyleSheet.create({
     container: {
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "#f8f9fa", // Fundo claro e suave
+      backgroundColor: "#f8f9fa", 
       padding: 20,
     },
     title: {
@@ -51,10 +49,10 @@ const styles = StyleSheet.create({
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       shadowRadius: 5,
-      elevation: 3, // Para Android
+      elevation: 3, 
     },
     button: {
-      backgroundColor: '#4CAF50', // Cor verde para os botões
+      backgroundColor: '#4CAF50', 
       borderRadius: 10,
       paddingVertical: 12,
       paddingHorizontal: 40,
