@@ -6,12 +6,19 @@ export default function Perfil() {
     const sair =()=>{
         router.push("/");
     }
+    const editarUsuario = () => {
+      router.push('../editarUsuario');
+
+    }
     return (
         <View style={styles.container}>
       <Text style={styles.title}>Perfil</Text>
       
       <TouchableOpacity style={styles.button} onPress={sair}>
         <Text style={styles.buttonText}>Sair</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={editarUsuario}>
+        <Text style={styles.buttonText}>Editar Usuário</Text>
       </TouchableOpacity>
     </View>
   );
