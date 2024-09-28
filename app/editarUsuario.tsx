@@ -23,25 +23,27 @@ export default function EditarUsuario() {
           <Text style={styles.mainTitle}>BookChef</Text>
           <Text style={styles.subTitle}>A sua Receita</Text>
           <Text style={styles.Title}>Editar Usuário</Text>
-          
+
           <View style={styles.inputContainer}>
-            <TextInput 
-              style={styles.input} 
-              placeholder="Nome" 
+            <TextInput
+              style={styles.input}
+              placeholder="Nome"
               placeholderTextColor="rgba(137, 137, 137, 0.65)"
               value={nome}
               onChangeText={setNome}
             />
-            <TextInput 
-              style={styles.input} 
-              placeholder="Email" 
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
               placeholderTextColor="rgba(137, 137, 137, 0.65)"
               value={email}
               onChangeText={setEmail}
+              editable={false} // Desativa o campo
             />
-            <TextInput 
-              style={styles.input} 
-              placeholder="Nova Senha" 
+
+            <TextInput
+              style={styles.input}
+              placeholder="Nova Senha"
               placeholderTextColor="rgba(137, 137, 137, 0.65)"
               secureTextEntry={true}
               value={senha}
@@ -61,7 +63,7 @@ export default function EditarUsuario() {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    resizeMode: 'cover',  
+    resizeMode: 'cover',
   },
   container: {
     flex: 1,
@@ -71,21 +73,21 @@ const styles = StyleSheet.create({
   },
   mainTitle: {
     fontSize: 32,
-    fontFamily: 'Kiwi Maru', 
+    fontFamily: 'Kiwi Maru',
     marginBottom: 5,
-    marginTop: -100, 
+    marginTop: -100,
     color: "#333",
   },
   subTitle: {
     fontSize: 16,
     fontFamily: 'Kiwi Maru',
-    marginBottom: 80, 
+    marginBottom: 80,
     color: "#333",
   },
   Title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20, 
+    marginBottom: 20,
     color: "#333",
   },
   inputContainer: {
@@ -94,30 +96,30 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '90%',
-    borderColor: 'rgba(137, 137, 137, 0.65)', 
+    borderColor: 'rgba(137, 137, 137, 0.65)',
     borderWidth: 3,
     marginBottom: 15,
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 10,
-    backgroundColor: "rgba(217, 217, 217, 0.65)", 
+    backgroundColor: "rgba(217, 217, 217, 0.65)",
     fontSize: 16,
     color: "#333",
   },
   button: {
-    backgroundColor: 'rgba(217, 217, 217, 0.8)', 
+    backgroundColor: 'rgba(217, 217, 217, 0.8)',
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 40,
     marginTop: 15,
     width: '60%',
     alignItems: 'center',
-    borderColor: 'rgba(137, 137, 137, 0.8)', 
+    borderColor: 'rgba(137, 137, 137, 0.8)',
     borderWidth: 3,
   },
   buttonText: {
     fontSize: 20,
-    color: '#000', 
-    fontFamily: 'Kiwi Maru', 
+    color: '#000',
+    fontFamily: 'Kiwi Maru',
   },
 });
