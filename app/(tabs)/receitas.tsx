@@ -1,10 +1,11 @@
 import { Text, View, StyleSheet, FlatList, ImageBackground, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+import { router } from "expo-router";
 
 const backgroundImage = require('../../assets/images/kitchen_background_image.png');
 
 export default function Receitas() {
-    // Simulando as receitas cadastradas
+   
     const [receitas, setReceitas] = useState([
         { id: '1', nome: 'Pizza de Calabresa', descricao: 'Uma deliciosa pizza com calabresa e queijo' },
         { id: '2', nome: 'Bolo de Cenoura', descricao: 'Bolo fofo com cobertura de chocolate' },
@@ -12,7 +13,7 @@ export default function Receitas() {
         { id: '4', nome: 'Pão Caseiro', descricao: 'Pão macio e caseiro, feito na hora' }
     ]);
 
-    // Função para renderizar cada receita
+    
     const renderItem = ({ item }) => (
         <View style={styles.recipeContainer}>
             <Text style={styles.recipeTitle}>{item.nome}</Text>
@@ -20,11 +21,10 @@ export default function Receitas() {
         </View>
     );
 
-    // Função para adicionar uma nova receita (exemplo de ação ao clicar)
+    
     const adicionarReceita = () => {
-        console.log("Adicionar nova receita");
-        
-    };
+        router.push('/cadastroReceita'); 
+      };
 
     return (
         <ImageBackground source={backgroundImage} style={styles.background}>
@@ -33,9 +33,8 @@ export default function Receitas() {
                 <Text style={styles.subTitle1}>A sua Receita</Text>
                 
                 <Text style={styles.title}>Receitas</Text>
-                <Text style={styles.subtitle}>Delícias para você explorar</Text>
-
-                {/* Lista de receitas */}
+                
+               
                 <FlatList
                     data={receitas}
                     renderItem={renderItem}
@@ -43,7 +42,7 @@ export default function Receitas() {
                     style={styles.list}
                 />
 
-                {/* Botão para adicionar receita */}
+                
                 <TouchableOpacity style={styles.addButton} onPress={adicionarReceita}>
                     <Text style={styles.addButtonText}>Adicionar Receita</Text>
                 </TouchableOpacity>

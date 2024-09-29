@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Text, View, TouchableOpacity, StyleSheet, ImageBackground, Image, ScrollView } from "react-native";
+import { useState, useEffect } from "react";
+import { Text, View, TouchableOpacity, StyleSheet, ImageBackground, Image, ScrollView, ActivityIndicator } from "react-native";
+import { Asset } from 'expo-asset';
 import { router } from "expo-router";
 
 // Importando a imagem de fundo
@@ -18,9 +19,29 @@ const recipesImages = [
 ];
 
 export default function TelaPrincipal() {
-  const adicionarReceita = () => {
-    router.push('/'); // Redireciona para a tela de adicionar receita
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  // Função para pré-carregar a imagem de fundo
+  const preloadImage = async () => {
+    await Asset.loadAsync(backgroundImage);
+    setImageLoaded(true);
   };
+
+  useEffect(() => {
+    preloadImage();
+  }, []);
+
+  const adicionarReceita = () => {
+    router.push('/cadastroReceita'); 
+  };
+
+  if (!imageLoaded) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#fff" />
+      </View>
+    );
+  }
 
   return (
     <ImageBackground source={backgroundImage} style={styles.background}>
@@ -28,7 +49,7 @@ export default function TelaPrincipal() {
         <Text style={styles.mainTitle}>BookChef</Text>
         <Text style={styles.subTitle1}>A sua Receita</Text>
 
-        {/* Mosaico de fotos de receitas com scroll */}
+        
         <ScrollView contentContainerStyle={styles.scrollMosaicContainer}>
           <View style={styles.mosaicContainer}>
             {recipesImages.map((item) => (
@@ -37,7 +58,7 @@ export default function TelaPrincipal() {
           </View>
         </ScrollView>
 
-        {/* Botão para adicionar receitas */}
+        
         <TouchableOpacity style={styles.button} onPress={adicionarReceita}>
           <Text style={styles.buttonText}>Adicionar Receita</Text>
         </TouchableOpacity>
@@ -47,6 +68,12 @@ export default function TelaPrincipal() {
 }
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000', 
+  },
   background: {
     flex: 1,
     resizeMode: 'cover',
@@ -60,21 +87,15 @@ const styles = StyleSheet.create({
   mainTitle: {
     fontSize: 32,
     fontFamily: 'Kiwi Maru',
-    marginTop: 50, // Aumentado para mover o título mais para baixo
+    marginTop: 50, 
     color: "#333",
   },
   subTitle1: {
     fontSize: 15,
     fontWeight: '400',
-    marginTop: 5, // Aumentado para mais espaço abaixo do título
+    marginTop: 5, 
     marginBottom: 20,
     color: "#333",
-  },
-  description: {
-    fontSize: 20,
-    color: '#333',
-    textAlign: 'center',
-    marginBottom: 20,
   },
   scrollMosaicContainer: {
     flexGrow: 1,
@@ -98,10 +119,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '80%',
     marginTop: 20,
-},
-buttonText: {
+  },
+  buttonText: {
     fontSize: 18,
     color: '#fff', 
     fontWeight: 'bold',
-},
+  },
 });
