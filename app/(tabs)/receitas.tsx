@@ -5,7 +5,7 @@ import { router } from "expo-router";
 const backgroundImage = require('../../assets/images/kitchen_background_image.png');
 
 export default function Receitas() {
-   
+
     const [receitas, setReceitas] = useState([
         { id: '1', nome: 'Pizza de Calabresa', descricao: 'Uma deliciosa pizza com calabresa e queijo' },
         { id: '2', nome: 'Bolo de Cenoura', descricao: 'Bolo fofo com cobertura de chocolate' },
@@ -13,7 +13,7 @@ export default function Receitas() {
         { id: '4', nome: 'Pão Caseiro', descricao: 'Pão macio e caseiro, feito na hora' }
     ]);
 
-    
+
     const renderItem = ({ item }) => (
         <View style={styles.recipeContainer}>
             <Text style={styles.recipeTitle}>{item.nome}</Text>
@@ -21,20 +21,23 @@ export default function Receitas() {
         </View>
     );
 
-    
+
     const adicionarReceita = () => {
-        router.push('/cadastroReceita'); 
-      };
+        router.push('/cadastroReceita');
+    };
+    const pesquisar = () => {
+        router.push('/pesquisa');
+    };
 
     return (
         <ImageBackground source={backgroundImage} style={styles.background}>
             <View style={styles.overlayContainer}>
                 <Text style={styles.mainTitle}>BookChef</Text>
                 <Text style={styles.subTitle1}>A sua Receita</Text>
-                
+
                 <Text style={styles.title}>Receitas</Text>
-                
-               
+
+
                 <FlatList
                     data={receitas}
                     renderItem={renderItem}
@@ -42,7 +45,9 @@ export default function Receitas() {
                     style={styles.list}
                 />
 
-                
+                <TouchableOpacity style={styles.addButton} onPress={pesquisar}>
+                    <Text style={styles.addButtonText}>Pesquisar novas Receitas</Text>
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.addButton} onPress={adicionarReceita}>
                     <Text style={styles.addButtonText}>Adicionar Receita</Text>
                 </TouchableOpacity>
@@ -62,35 +67,35 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         padding: 20,
         width: '100%',
     },
     mainTitle: {
-        fontSize: 36, 
+        fontSize: 36,
         fontWeight: "bold",
-        color: "#fff", 
-        marginTop: 50, 
+        color: "#fff",
+        marginTop: 50,
         marginBottom: 5,
         textAlign: 'center',
     },
     subTitle1: {
-        fontSize: 18, 
-        color: "#ddd", 
-        marginBottom: 30, 
+        fontSize: 18,
+        color: "#ddd",
+        marginBottom: 30,
         textAlign: 'center',
     },
     title: {
-        fontSize: 28, 
+        fontSize: 28,
         fontWeight: "bold",
-        color: "#fff", 
-        marginTop: 20, 
+        color: "#fff",
+        marginTop: 20,
         marginBottom: 10,
         textAlign: 'center',
     },
     subtitle: {
         fontSize: 18,
-        color: "#ddd", 
+        color: "#ddd",
         marginBottom: 20,
         textAlign: 'center',
     },
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
-        elevation: 3, 
+        elevation: 3,
     },
     recipeTitle: {
         fontSize: 18,
@@ -119,7 +124,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     addButton: {
-        backgroundColor: '#ff6347', 
+        backgroundColor: '#ff6347',
         padding: 15,
         borderRadius: 10,
         alignItems: 'center',
@@ -128,7 +133,7 @@ const styles = StyleSheet.create({
     },
     addButtonText: {
         fontSize: 18,
-        color: '#fff', 
+        color: '#fff',
         fontWeight: 'bold',
     },
 });

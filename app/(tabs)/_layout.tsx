@@ -56,6 +56,16 @@ export default function LayoutTab() {
                 }}
             />
 
+            <Tabs.Screen
+                name="pesquisa"
+                options={{
+                    title: "Pesquisar",
+                    tabBarIcon: ({ color }) => (
+                        <FontAwesome5 name="clipboard-list" size={26} color={color} />
+                    ),
+                }}
+            />
+
         </Tabs>
     );
 }
