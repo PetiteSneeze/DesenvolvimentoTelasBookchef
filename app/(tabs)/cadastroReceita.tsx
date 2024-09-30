@@ -48,6 +48,10 @@ export default function CadastroReceita() {
     return (
         <ImageBackground source={backgroundImage} style={styles.background}>
             <ScrollView contentContainerStyle={styles.overlayContainer}>
+                
+                <Text style={styles.appName}>BookChef</Text>
+                <Text style={styles.appSubtitle}>A sua Receita</Text>
+
                 <Text style={styles.mainTitle}>Cadastrar Receita</Text>
 
                 <TextInput
@@ -83,7 +87,6 @@ export default function CadastroReceita() {
                     numberOfLines={4}
                 />
 
-
                 <View style={styles.pickerContainer}>
                     <Text style={styles.pickerLabel}>Tipo de Receita:</Text>
                     <View style={styles.pickerWrapper}>
@@ -98,14 +101,11 @@ export default function CadastroReceita() {
                     </View>
                 </View>
 
-
-
                 <TouchableOpacity style={styles.button} onPress={pickImage}>
                     <Text style={styles.buttonText}>Selecionar Imagem</Text>
                 </TouchableOpacity>
 
                 {image && <Image source={{ uri: image }} style={styles.image} />}
-
 
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.buttonText}>Cadastrar Receita</Text>
@@ -133,11 +133,23 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         flexGrow: 1,
     },
+    appName: {
+        fontSize: 36,
+        fontWeight: 'bold',
+        color: '#fff',
+        marginTop: 20,
+        textAlign: 'center',
+    },
+    appSubtitle: {
+        fontSize: 18,
+        color: '#fff',
+        marginBottom: 20,
+        textAlign: 'center',
+    },
     mainTitle: {
         fontSize: 36,
-        fontWeight: "bold",
-        color: "#fff",
-        marginTop: 50,
+        fontWeight: 'bold',
+        color: '#fff',
         marginBottom: 20,
         textAlign: 'center',
     },
@@ -148,12 +160,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginBottom: 15,
     },
-    pickerWrapper: {
-        backgroundColor: '#fff',
-        borderRadius: 8,
-        borderColor: '#ccc',
-        borderWidth: 1,
-      },
     textArea: {
         backgroundColor: '#fff',
         width: '90%',
@@ -174,6 +180,12 @@ const styles = StyleSheet.create({
         color: '#000',
         marginBottom: 5,
         marginTop: 10,
+    },
+    pickerWrapper: {
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        borderColor: '#ccc',
+        borderWidth: 1,
     },
     picker: {
         height: 50,

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, TextInput, StyleSheet, GestureResponderEvent, ImageBackground, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { router } from "expo-router";
 
-// Importando a imagem de fundo
 const backgroundImage = require('../assets/images/kitchen_background_image.png');
 
 export default function EditarUsuario() {
@@ -11,9 +10,9 @@ export default function EditarUsuario() {
   const [nome, setNome] = useState('');
 
   const atualizarUsuario = (event: GestureResponderEvent): void => {
-    // Aqui vai a lógica de atualização do usuário
+    
     console.log("Atualizar usuário:", { nome, email, senha });
-    router.push('/perfil'); // Redireciona para a página de perfil, por exemplo
+    router.push('/perfil'); 
   }
 
   return (
@@ -38,7 +37,7 @@ export default function EditarUsuario() {
               placeholderTextColor="rgba(137, 137, 137, 0.65)"
               value={email}
               onChangeText={setEmail}
-              editable={false} // Desativa o campo
+              editable={false} 
             />
 
             <TextInput
@@ -72,14 +71,14 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   mainTitle: {
-    fontSize: 32,
+    fontSize: 36,
     fontFamily: 'Kiwi Maru',
     marginBottom: 5,
     marginTop: -100,
     color: "#333",
   },
   subTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: 'Kiwi Maru',
     marginBottom: 80,
     color: "#333",

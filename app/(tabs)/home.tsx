@@ -3,10 +3,8 @@ import { Text, View, TouchableOpacity, StyleSheet, ImageBackground, Image, Scrol
 import { Asset } from 'expo-asset';
 import { router } from "expo-router";
 
-// Importando a imagem de fundo
 const backgroundImage = require('../../assets/images/kitchen_background_image.png');
 
-// Simulando algumas imagens de receitas
 const recipesImages = [
   { id: '1', image: require('../../assets/images/pizza.jpg') },
   { id: '2', image: require('../../assets/images/bolo.jpg') },
@@ -21,7 +19,6 @@ const recipesImages = [
 export default function TelaPrincipal() {
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  // Função para pré-carregar a imagem de fundo
   const preloadImage = async () => {
     await Asset.loadAsync(backgroundImage);
     setImageLoaded(true);
@@ -45,11 +42,12 @@ export default function TelaPrincipal() {
 
   return (
     <ImageBackground source={backgroundImage} style={styles.background}>
-      <View style={styles.container}>
-        <Text style={styles.mainTitle}>BookChef</Text>
-        <Text style={styles.subTitle1}>A sua Receita</Text>
-
+      <View style={styles.overlayContainer}>
         
+        <Text style={styles.mainTitle}>BookChef</Text>
+        <Text style={styles.subTitle}>A sua Receita</Text>
+
+       
         <ScrollView contentContainerStyle={styles.scrollMosaicContainer}>
           <View style={styles.mosaicContainer}>
             {recipesImages.map((item) => (
@@ -58,7 +56,6 @@ export default function TelaPrincipal() {
           </View>
         </ScrollView>
 
-        
         <TouchableOpacity style={styles.button} onPress={adicionarReceita}>
           <Text style={styles.buttonText}>Adicionar Receita</Text>
         </TouchableOpacity>
@@ -78,24 +75,26 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
   },
-  container: {
+  overlayContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
     padding: 20,
+    width: '100%',
   },
   mainTitle: {
-    fontSize: 32,
-    fontFamily: 'Kiwi Maru',
-    marginTop: 50, 
-    color: "#333",
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginTop: 50,
+    textAlign: 'center',
   },
-  subTitle1: {
-    fontSize: 15,
-    fontWeight: '400',
-    marginTop: 5, 
+  subTitle: {
+    fontSize: 18,
+    color: '#fff',
     marginBottom: 20,
-    color: "#333",
+    textAlign: 'center',
   },
   scrollMosaicContainer: {
     flexGrow: 1,

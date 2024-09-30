@@ -82,14 +82,14 @@ const styles = StyleSheet.create({
     padding: 20,  
   },
   mainTitle: {
-    fontSize: 32,
+    fontSize: 36,
     fontFamily: 'Kiwi Maru', 
     marginBottom: 5,
     marginTop: -100, 
     color: "#333",
   },
   subTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: 'Kiwi Maru',
     marginBottom: 80, 
     color: "#333",

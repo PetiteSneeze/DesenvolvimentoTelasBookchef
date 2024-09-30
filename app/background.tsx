@@ -19,12 +19,12 @@ const BackgroundWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    resizeMode: 'cover', // Ajuste a imagem para cobrir a tela inteira
+    resizeMode: 'cover', 
   },
   content: {
     flex: 1,
-    justifyContent: 'center', // Altere conforme necessário
-    alignItems: 'center',     // Altere conforme necessário
+    justifyContent: 'center', 
+    alignItems: 'center',   
   },
 });
 
