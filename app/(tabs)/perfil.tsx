@@ -3,10 +3,13 @@ import { useState, useEffect } from "react";
 import * as ImagePicker from 'expo-image-picker'; 
 import { Asset } from 'expo-asset';
 import { router } from "expo-router";
+import { useUser } from "../context/userContext";
+import Gravatar from '@krosben/react-native-gravatar';
 
 const backgroundImage = require('../../assets/images/kitchen_background_image.png');
 
 export default function Perfil() {
+    const { user, setUser } = useUser();
     const [imageLoaded, setImageLoaded] = useState(false);
     const [userImage, setUserImage] = useState<string | null>(null); 
 
@@ -33,6 +36,13 @@ export default function Perfil() {
     };
 
     const sair = () => {
+        setUser({
+            nome: '',
+            email: '',
+            senha: '',
+            logado: false,
+            id: 0,
+        });
         router.push("/");
     };
 
@@ -40,7 +50,6 @@ export default function Perfil() {
         router.push('../editarUsuario');
     };
 
-    
     if (!imageLoaded) {
         return (
             <View style={styles.loadingContainer}>
@@ -61,13 +70,13 @@ export default function Perfil() {
                         <Image source={{ uri: userImage }} style={styles.userImage} />
                     ) : (
                         <View style={styles.placeholderImage}>
-                            <Text style={styles.placeholderText}>Escolher Foto</Text>
+                            <Gravatar email={user.email} size={120} style={styles.gravatar} />
                         </View>
                     )}
                 </TouchableOpacity>
                 
                 <Text style={styles.title}>Bem vindo</Text>
-                <Text style={styles.username}>Andre Cavichiolli</Text>
+                <Text style={styles.username}>{user.nome}</Text>
 
                 <TouchableOpacity style={styles.button} onPress={sair}>
                     <Text style={styles.buttonText}>Sair</Text>
@@ -125,14 +134,14 @@ const styles = StyleSheet.create({
         width: 120,
         height: 120,
         borderRadius: 60,
-        backgroundColor: '#cccccc',
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 20,
     },
-    placeholderText: {
-        color: '#ffffff',
-        fontWeight: 'bold',
+    gravatar: {
+        width: 120,
+        height: 120,
+        borderRadius: 60,
     },
     title: {
         fontSize: 40,
