@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Ionicons } from '@expo/vector-icons'; 
 import { router } from "expo-router";
 
-
+//login
 const backgroundImage = require('../assets/images/kitchen_background_image.png');  
 
 export default function Index() {

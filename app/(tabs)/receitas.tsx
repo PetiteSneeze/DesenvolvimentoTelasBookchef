@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, FlatList, ImageBackground, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { router } from "expo-router";
-
+//lista de receita
 const backgroundImage = require('../../assets/images/kitchen_background_image.png');
 
 export default function Receitas() {
@@ -13,14 +13,12 @@ export default function Receitas() {
         { id: '4', nome: 'Pão Caseiro', descricao: 'Pão macio e caseiro, feito na hora' }
     ]);
 
-
     const renderItem = ({ item }) => (
         <View style={styles.recipeContainer}>
             <Text style={styles.recipeTitle}>{item.nome}</Text>
             <Text style={styles.recipeDescription}>{item.descricao}</Text>
         </View>
     );
-
 
     const adicionarReceita = () => {
         router.push('/cadastroReceita');
