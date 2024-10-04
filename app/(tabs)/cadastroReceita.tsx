@@ -3,10 +3,14 @@ import React, { useState, useEffect } from "react";
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
 import { Asset } from 'expo-asset';
+import { useUser } from "../context/userContext";
+import { useReceitas } from "../context/receitasContext";
 
 const backgroundImage = require('../../assets/images/kitchen_background_image.png');
 
 export default function CadastroReceita() {
+    const { user, setUser } = useUser();
+    const { receita, setReceitas } = useReceitas();
     const [nomeReceita, setNomeReceita] = useState('');
     const [descricao, setDescricao] = useState('');
     const [ingredientes, setIngredientes] = useState('');
