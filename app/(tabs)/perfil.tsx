@@ -70,7 +70,7 @@ export default function Perfil() {
                         <Image source={{ uri: userImage }} style={styles.userImage} />
                     ) : (
                         <View style={styles.placeholderImage}>
-                            <Gravatar email={user.email} size={120} style={styles.gravatar} />
+                            <Gravatar email={user.email} size={300} style={styles.gravatar} />
                         </View>
                     )}
                 </TouchableOpacity>
@@ -125,8 +125,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     userImage: {
-        width: 200,
-        height: 200,
+        width: 250,
+        height: 250,
         borderRadius: 120, 
         marginBottom: 120,
     },

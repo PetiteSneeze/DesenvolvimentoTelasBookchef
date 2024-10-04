@@ -1,17 +1,20 @@
 import { Text, View, StyleSheet, FlatList, ImageBackground, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { router } from "expo-router";
+import { useReceitas } from "../context/receitasContext";
 //lista de receita
 const backgroundImage = require('../../assets/images/kitchen_background_image.png');
 
 export default function Receitas() {
 
-    const [receitas, setReceitas] = useState([
+    const {receita, setReceitas} = useReceitas();
+
+    {/*const [receitas, setReceitas] = useState([
         { id: '1', nome: 'Pizza de Calabresa', descricao: 'Uma deliciosa pizza com calabresa e queijo' },
         { id: '2', nome: 'Bolo de Cenoura', descricao: 'Bolo fofo com cobertura de chocolate' },
         { id: '3', nome: 'Suco de Laranja', descricao: 'Suco natural de laranja fresco' },
         { id: '4', nome: 'Pão Caseiro', descricao: 'Pão macio e caseiro, feito na hora' }
-    ]);
+    ]);*/}
 
     const renderItem = ({ item }) => (
         <View style={styles.recipeContainer}>
@@ -37,7 +40,7 @@ export default function Receitas() {
 
 
                 <FlatList
-                    data={receitas}
+                    data={receita}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id}
                     style={styles.list}
