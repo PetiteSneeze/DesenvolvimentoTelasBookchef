@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from "expo-router";
 import { useUser } from "./context/userContext";
 
-//login
 const backgroundImage = require('../assets/images/kitchen_background_image.png');
 
 export default function Index() {
@@ -99,6 +98,7 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     resizeMode: 'cover',
+    justifyContent: 'center',
   },
   container: {
     flex: 1,

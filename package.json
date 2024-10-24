@@ -19,6 +19,7 @@
     "@krosben/react-native-gravatar": "^0.0.1",
     "@react-native-picker/picker": "^2.8.1",
     "@react-navigation/native": "^6.0.2",
+    "axios": "^1.7.7",
     "expo": "~51.0.28",
     "expo-asset": "^10.0.10",
     "expo-constants": "~16.0.2",

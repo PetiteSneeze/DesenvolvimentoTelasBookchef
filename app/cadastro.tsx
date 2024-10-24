@@ -2,7 +2,7 @@ import { Text, View, TouchableOpacity, StyleSheet, TextInput, ImageBackground, T
 import { useState } from "react";
 import { router } from "expo-router";
 
-const backgroundImage = require('../assets/images/kitchen_background_image.png');  // Imagem de fundo
+const backgroundImage = require('../assets/images/kitchen_background_image.png');  
 
 export default function Cadastro() {
   const [email, setEmail] = useState('');
