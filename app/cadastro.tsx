@@ -1,6 +1,7 @@
 import { Text, View, TouchableOpacity, StyleSheet, TextInput, ImageBackground, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useState } from "react";
 import { router } from "expo-router";
+import UsuarioService from "./service/usuarioService";
 
 const backgroundImage = require('../assets/images/kitchen_background_image.png');  
 
@@ -8,9 +9,30 @@ export default function Cadastro() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [nome, setNome] = useState('');
+  const usuarioservice = new UsuarioService();
 
-  const cadastro = () => {
-    router.push('/');
+  const cadastro = async () => {
+    const usuario= {
+      id:0,
+      nome: nome,
+      email: email,
+      senha: senha,
+
+    }
+    usuarioservice.salvar(usuario).then(
+
+      (response) => {
+        alert("Cadastro realizado com sucesso!");
+        router.push("/");
+      }
+    ).catch(
+        (error)=>{
+          alert("Erro ao cadastrar");
+          console.log(error);
+        }
+    );
+
+   
   }
 
   return (

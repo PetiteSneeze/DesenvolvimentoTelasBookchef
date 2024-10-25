@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Ionicons } from '@expo/vector-icons';
 import { router } from "expo-router";
 import { useUser } from "./context/userContext";
+import UsuarioService from "./service/usuarioService";
 
 const backgroundImage = require('../assets/images/kitchen_background_image.png');
 
@@ -12,11 +13,39 @@ export default function Index() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [senhaVisivel, setSenhaVisivel] = useState(false);
+  const usuarioservice = new UsuarioService();
 
-  const login = () => {
-    //requisitar na api o login
+  const login = async () => {
 
     if (email && senha) {
+
+        const usuario={
+          id:0, 
+          email:email,
+          senha:senha
+        }
+        usuarioservice.validarLogin(usuario).then(
+          (Response)=>{
+            console.log(Response);
+            const ret = Response.data;
+
+            setUser({ email: email,
+              senha: ret.senha,
+              nome: ret.nome,
+              id:ret.id,
+              logado: true
+         });
+
+      router.push('/(tabs)/home');
+
+          }
+        ).catch(
+          (error)=>{
+            alert('Email ou senha inválidos!');
+            console.log(error);
+          }
+        );
+
 
       let retorno = true;
       if (retorno) {

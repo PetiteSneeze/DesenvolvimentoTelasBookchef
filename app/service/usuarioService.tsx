@@ -5,7 +5,7 @@ class UsuarioService extends ApiService{
         super('/usuarios');
     }
 
-    validarLogin(usuario:any){
+    validarLogin(usuario: any){
         return this.post('/login', usuario);
     }
 
