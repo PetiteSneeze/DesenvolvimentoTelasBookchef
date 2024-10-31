@@ -1,49 +1,120 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
-import {Receitas} from './typesContext';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import ReceitasService from '../service/receitasService';
+import { Alert } from 'react-native';
 
-// Definindo o tipo para o contexto de usuário
-interface ReceitasContextType {
-  receita: Receitas[];
-  setReceitas: React.Dispatch<React.SetStateAction<Receitas[]>>;
+// Definindo o tipo para uma receita
+interface Receita {
+  id: number;
+  nome: string;
+  descricao: string;
+  ingredientes: string;
+  modoPreparo: string;
+  imagemUrl?: string;
 }
 
-// Criando o contexto de usuário com tipagem correta
-const receitasContext = createContext<ReceitasContextType | undefined>(undefined);
+// Definindo o tipo para o contexto de receitas
+interface ReceitasContextType {
+  receitas: Receita[];
+  setReceitas: React.Dispatch<React.SetStateAction<Receita[]>>;
+  buscarTodas: () => Promise<void>;
+  salvarReceita: (receita: Receita) => Promise<void>;
+  editarReceita: (id: number, receita: Receita) => Promise<void>;
+  excluirReceita: (id: number) => Promise<void>;
+  buscarReceitaPorId: (id: number) => Promise<Receita | undefined>;
+}
 
-interface ReceitaProviderProps {
+const ReceitasContext = createContext<ReceitasContextType | undefined>(undefined);
+
+interface ReceitasProviderProps {
   children: ReactNode;
 }
 
 // Criando o Provider
-export default function ReceitaProvider({ children }: ReceitaProviderProps) {
-  const [receita, setReceitas] = useState<Receitas[]>([{
-    nome: "Pizza de calabresa",
-    descricao:"uma receita de pizza muito boa",
-    id:1, 
-  },
-  {
-    nome: "Bolo",
-    descricao:"uma delicioso bolo de fubá",
-    id:2, 
-  }
-]);
+export default function ReceitasProvider({ children }: ReceitasProviderProps) {
+  const [receitas, setReceitas] = useState<Receita[]>([]);
+  const receitasService = new ReceitasService();
+
+  useEffect(() => {
+    buscarTodas();
+  }, []);
+
+  const buscarTodas = async () => {
+    try {
+      const response = await receitasService.buscarTodas();
+      setReceitas(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar receitas:', error);
+      Alert.alert('Erro', 'Não foi possível carregar as receitas.');
+    }
+  };
+
+  const salvarReceita = async (receita: Receita) => {
+    try {
+      await receitasService.salvar(receita);
+      Alert.alert('Sucesso', 'Receita salva com sucesso!');
+      buscarTodas();
+    } catch (error) {
+      console.error('Erro ao salvar a receita:', error);
+      Alert.alert('Erro', 'Não foi possível salvar a receita.');
+    }
+  };
+
+  const editarReceita = async (id: number, receita: Receita) => {
+    try {
+      await receitasService.atualizarReceita(id, receita);
+      Alert.alert('Sucesso', 'Receita atualizada com sucesso!');
+      buscarTodas();
+    } catch (error) {
+      console.error('Erro ao editar a receita:', error);
+      Alert.alert('Erro', 'Não foi possível editar a receita.');
+    }
+  };
+
+  const excluirReceita = async (id: number) => {
+    try {
+      await receitasService.excluir(id);
+      setReceitas((prevReceitas) => prevReceitas.filter((receita) => receita.id !== id));
+      Alert.alert('Sucesso', 'Receita excluída com sucesso!');
+    } catch (error) {
+      console.error('Erro ao excluir a receita:', error);
+      Alert.alert('Erro', 'Não foi possível excluir a receita.');
+    }
+  };
+
+  const buscarReceitaPorId = async (id: number): Promise<Receita | undefined> => {
+    try {
+      const response = await receitasService.buscarPorId(id);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao buscar a receita por ID:', error);
+      Alert.alert('Erro', 'Não foi possível encontrar a receita.');
+    }
+  };
 
   return (
-    <receitasContext.Provider value={{ receita, setReceitas }}>
+    <ReceitasContext.Provider
+      value={{
+        receitas,
+        setReceitas,
+        buscarTodas,
+        salvarReceita,
+        editarReceita,
+        excluirReceita,
+        buscarReceitaPorId,
+      }}
+    >
       {children}
-    </receitasContext.Provider>
+    </ReceitasContext.Provider>
   );
 }
 
-// Custom Hook para usar o contexto
+// Custom Hook para usar o contexto de receitas
 export function useReceitas() {
-  const context = useContext(receitasContext);
+  const context = useContext(ReceitasContext);
 
-  // Se o contexto for indefinido, lança um erro
   if (!context) {
-    throw new Error('useUser deve ser usado dentro de um UserProvider');
+    throw new Error('useReceitas deve ser usado dentro de um ReceitasProvider');
   }
 
-  const { receita, setReceitas } = context;
-  return { receita, setReceitas };
+  return context;
 }
