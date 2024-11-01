@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { router } from "expo-router";
 import { useReceitas } from "../context/receitasContext";
 import { useUser } from "../context/userContext"; // Certifique-se de que este contexto fornece o usuarioId
-import buscarReceitasDoUsuario from 
+
 
 const backgroundImage = require('../../assets/images/kitchen_background_image.png');
 
