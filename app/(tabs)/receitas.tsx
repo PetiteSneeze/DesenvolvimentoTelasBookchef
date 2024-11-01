@@ -4,7 +4,6 @@ import { router } from "expo-router";
 import { useReceitas } from "../context/receitasContext";
 import { useUser } from "../context/userContext"; // Certifique-se de que este contexto fornece o usuarioId
 
-
 const backgroundImage = require('../../assets/images/kitchen_background_image.png');
 
 export default function Receitas() {
@@ -17,8 +16,14 @@ export default function Receitas() {
         }
     }, [user]);
 
-    const handleEdit = (receita: { id: any; }) => {
-        router.push({ pathname: '/cadastroReceita', params: { id: receita.id } });
+    const handleEdit = (receita) => {
+        router.push({ pathname: '/cadastroReceita', params: { id: receita.id,
+            nome: receita.nome,
+            descricao: receita.descricao,
+            ingredientes: receita.ingredientes,
+            modoPreparo: receita.modoPreparo,
+            imagemUrl: receita.imagemUrl
+         } });
     };
 
     const handleDelete = async (id: number) => {
@@ -36,7 +41,7 @@ export default function Receitas() {
                     onPress: async () => {
                         try {
                             await excluirReceita(id);
-                            buscarReceitasDoUsuario(user.id); // Atualiza a lista após exclusão
+                            buscarReceitasDoUsuario(user.id); 
                         } catch (error) {
                             console.error("Erro ao excluir receita:", error);
                         }
