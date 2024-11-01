@@ -26,8 +26,13 @@ class ReceitasService extends ApiService {
     }
 
     atualizarReceita(id: number, receitaAtualizada: any) {
-        return this.put(`/${id}`, receitaAtualizada);
+        console.log(receitaAtualizada)
+        return this.put("", receitaAtualizada);
     }
+    buscarReceitasPorUsuario(usuarioId: number) {
+        return this.get(`/usuario/${usuarioId}/receitas`);
+    }
+    
 }
 
 export default ReceitasService;

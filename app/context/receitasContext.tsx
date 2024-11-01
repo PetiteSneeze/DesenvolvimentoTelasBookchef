@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 import ReceitasService from '../service/receitasService';
 import { Alert } from 'react-native';
 
-// Definindo o tipo para uma receita
+
 interface Receita {
   id: number;
   nome: string;
@@ -12,7 +12,7 @@ interface Receita {
   imagemUrl?: string;
 }
 
-// Definindo o tipo para o contexto de receitas
+
 interface ReceitasContextType {
   receitas: Receita[];
   setReceitas: React.Dispatch<React.SetStateAction<Receita[]>>;
@@ -29,7 +29,7 @@ interface ReceitasProviderProps {
   children: ReactNode;
 }
 
-// Criando o Provider
+
 export default function ReceitasProvider({ children }: ReceitasProviderProps) {
   const [receitas, setReceitas] = useState<Receita[]>([]);
   const receitasService = new ReceitasService();
@@ -70,6 +70,16 @@ export default function ReceitasProvider({ children }: ReceitasProviderProps) {
     }
   };
 
+  const buscarReceitasDoUsuario = async (usuarioId: number) => {
+    try {
+        const response = await receitasService.buscarReceitasPorUsuario(usuarioId);
+        setReceitas(response.data);
+    } catch (error) {
+        console.error('Erro ao buscar receitas do usuário:', error);
+        Alert.alert('Erro', 'Não foi possível carregar as receitas do usuário.');
+    }
+};
+
   const excluirReceita = async (id: number) => {
     try {
       await receitasService.excluir(id);
@@ -108,7 +118,7 @@ export default function ReceitasProvider({ children }: ReceitasProviderProps) {
   );
 }
 
-// Custom Hook para usar o contexto de receitas
+
 export function useReceitas() {
   const context = useContext(ReceitasContext);
 

@@ -1,31 +1,70 @@
-import { Text, View, StyleSheet, FlatList, ImageBackground, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import { Text, View, StyleSheet, FlatList, ImageBackground, TouchableOpacity, Alert } from "react-native";
+import React, { useEffect } from "react";
 import { router } from "expo-router";
 import { useReceitas } from "../context/receitasContext";
-//lista de receita
+import { useUser } from "../context/userContext"; // Certifique-se de que este contexto fornece o usuarioId
+import buscarReceitasDoUsuario from 
+
 const backgroundImage = require('../../assets/images/kitchen_background_image.png');
 
 export default function Receitas() {
+    const { receitas, buscarReceitasDoUsuario, excluirReceita } = useReceitas();
+    const { user } = useUser();
 
-    const {receita, setReceitas} = useReceitas();
+    useEffect(() => {
+        if (user?.id) {
+            buscarReceitasDoUsuario(user.id);
+        }
+    }, [user]);
 
-    {/*const [receitas, setReceitas] = useState([
-        { id: '1', nome: 'Pizza de Calabresa', descricao: 'Uma deliciosa pizza com calabresa e queijo' },
-        { id: '2', nome: 'Bolo de Cenoura', descricao: 'Bolo fofo com cobertura de chocolate' },
-        { id: '3', nome: 'Suco de Laranja', descricao: 'Suco natural de laranja fresco' },
-        { id: '4', nome: 'Pão Caseiro', descricao: 'Pão macio e caseiro, feito na hora' }
-    ]);*/}
+    const handleEdit = (receita: { id: any; }) => {
+        router.push({ pathname: '/cadastroReceita', params: { id: receita.id } });
+    };
+
+    const handleDelete = async (id: number) => {
+        Alert.alert(
+            "Confirmar Exclusão",
+            "Você tem certeza de que deseja excluir esta receita?",
+            [
+                {
+                    text: "Cancelar",
+                    style: "cancel"
+                },
+                {
+                    text: "Excluir",
+                    style: "destructive",
+                    onPress: async () => {
+                        try {
+                            await excluirReceita(id);
+                            buscarReceitasDoUsuario(user.id); // Atualiza a lista após exclusão
+                        } catch (error) {
+                            console.error("Erro ao excluir receita:", error);
+                        }
+                    }
+                }
+            ]
+        );
+    };
 
     const renderItem = ({ item }) => (
         <View style={styles.recipeContainer}>
             <Text style={styles.recipeTitle}>{item.nome}</Text>
             <Text style={styles.recipeDescription}>{item.descricao}</Text>
+            <View style={styles.actionButtons}>
+                <TouchableOpacity style={styles.editButton} onPress={() => handleEdit(item)}>
+                    <Text style={styles.actionText}>Editar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
+                    <Text style={styles.actionText}>Excluir</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 
     const adicionarReceita = () => {
         router.push('/cadastroReceita');
     };
+
     const pesquisar = () => {
         router.push('/pesquisa');
     };
@@ -35,14 +74,12 @@ export default function Receitas() {
             <View style={styles.overlayContainer}>
                 <Text style={styles.mainTitle}>BookChef</Text>
                 <Text style={styles.subTitle1}>A sua Receita</Text>
-
                 <Text style={styles.title}>Receitas</Text>
 
-
                 <FlatList
-                    data={receita}
+                    data={receitas}
                     renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.id.toString()}
                     style={styles.list}
                 />
 
@@ -57,6 +94,7 @@ export default function Receitas() {
     );
 }
 
+// Estilos
 const styles = StyleSheet.create({
     background: {
         flex: 1,
@@ -94,12 +132,6 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         textAlign: 'center',
     },
-    subtitle: {
-        fontSize: 18,
-        color: "#ddd",
-        marginBottom: 20,
-        textAlign: 'center',
-    },
     list: {
         width: '100%',
     },
@@ -123,6 +155,25 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#777',
         marginTop: 5,
+    },
+    actionButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: 10,
+    },
+    editButton: {
+        backgroundColor: '#1E90FF',
+        padding: 10,
+        borderRadius: 5,
+    },
+    deleteButton: {
+        backgroundColor: '#FF6347',
+        padding: 10,
+        borderRadius: 5,
+    },
+    actionText: {
+        color: '#fff',
+        fontWeight: 'bold',
     },
     addButton: {
         backgroundColor: '#ff6347',
