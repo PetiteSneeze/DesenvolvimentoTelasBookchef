@@ -1,14 +1,32 @@
 import { Text, View, StyleSheet, FlatList, ImageBackground, TouchableOpacity, Alert } from "react-native";
 import React, { useEffect } from "react";
-import { router } from "expo-router";
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { useReceitas } from "../context/receitasContext";
-import { useUser } from "../context/userContext"; // Certifique-se de que este contexto fornece o usuarioId
+import { useUser } from "../context/userContext";
+import { router } from "expo-router";
 
-const backgroundImage = require('../../assets/images/kitchen_background_image.png');
+const backgroundImage = require('../../assets/images/rr.jpg');
+
+// Tipagem para as rotas
+type RootStackParamList = {
+  Receitas: undefined;
+  CadastroReceita: {
+    id?: number;
+    nome?: string;
+    descricao?: string;
+    ingredientes?: string;
+    modoPreparo?: string;
+    imagemUrl?: string;
+    tipoReceita?: string;
+  };
+};
 
 export default function Receitas() {
     const { receitas, buscarReceitasDoUsuario, excluirReceita } = useReceitas();
     const { user } = useUser();
+    
+    // Define a navegação com tipagem para as rotas
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     useEffect(() => {
         if (user?.id) {
@@ -17,16 +35,18 @@ export default function Receitas() {
     }, [user]);
 
     const handleEdit = (receita) => {
-        router.push({ pathname: '/cadastroReceita', params: { id: receita.id,
+
+        navigation.navigate("CadastroReceita", {
+            id: receita.id,
             nome: receita.nome,
             descricao: receita.descricao,
             ingredientes: receita.ingredientes,
             modoPreparo: receita.modoPreparo,
-            imagemUrl: receita.imagemUrl
-         } });
+            imagemUrl: receita.imagemUrl,
+          });
     };
 
-    const handleDelete = async (id: number) => {
+    const handleDelete = (id) => {
         Alert.alert(
             "Confirmar Exclusão",
             "Você tem certeza de que deseja excluir esta receita?",
@@ -41,7 +61,7 @@ export default function Receitas() {
                     onPress: async () => {
                         try {
                             await excluirReceita(id);
-                            buscarReceitasDoUsuario(user.id); 
+                            buscarReceitasDoUsuario(user.id); // Atualiza a lista após exclusão
                         } catch (error) {
                             console.error("Erro ao excluir receita:", error);
                         }

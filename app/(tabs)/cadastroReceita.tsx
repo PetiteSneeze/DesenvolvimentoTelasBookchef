@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Asset } from 'expo-asset';
 import { useReceitas } from "../context/receitasContext";
 
-const backgroundImage = require('../../assets/images/kitchen_background_image.png');
+const backgroundImage = require('../../assets/images/rr.jpg');
 
 export default function CadastroReceita() {
     const { receitas, buscarTodas, salvarReceita, editarReceita, excluirReceita } = useReceitas();
@@ -155,20 +155,8 @@ export default function CadastroReceita() {
                     <Text style={styles.buttonText}>{editing ? 'Atualizar Receita' : 'Cadastrar Receita'}</Text>
                 </TouchableOpacity>
 
-                {/* Listagem de receitas */}
-                {receitas.map((receita) => (
-                    <View key={receita.id} style={styles.recipeItem}>
-                        <Text style={styles.recipeTitle}>{receita.nome}</Text>
-                        <View style={styles.recipeButtons}>
-                            <TouchableOpacity onPress={() => handleEdit(receita)}>
-                                <Text style={styles.editButton}>Editar</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleDelete(receita.id)}>
-                                <Text style={styles.deleteButton}>Excluir</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                ))}
+                
+             
             </ScrollView>
         </ImageBackground>
     );

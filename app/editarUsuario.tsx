@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, TextInput, StyleSheet, GestureResponderEvent, ImageBackground, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { router } from "expo-router";
 
-const backgroundImage = require('../assets/images/kitchen_background_image.png');
-
+const backgroundImage = require('../assets/images/rr.jpg')
 export default function EditarUsuario() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');

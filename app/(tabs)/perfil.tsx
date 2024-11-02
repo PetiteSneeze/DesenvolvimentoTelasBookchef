@@ -6,7 +6,7 @@ import { router } from "expo-router";
 import { useUser } from "../context/userContext";
 import Gravatar from '@krosben/react-native-gravatar';
 
-const backgroundImage = require('../../assets/images/kitchen_background_image.png');
+const backgroundImage = require('../../assets/images/rr.jpg');
 
 export default function Perfil() {
     const { user, setUser } = useUser();
@@ -22,19 +22,7 @@ export default function Perfil() {
         preloadImage();
     }, []);
 
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [1, 1], 
-            quality: 1,
-        });
-
-        if (!result.canceled) {
-            setUserImage(result.assets[0].uri); 
-        }
-    };
-
+    
     const sair = () => {
         setUser({
             nome: '',
@@ -65,15 +53,6 @@ export default function Perfil() {
                 <Text style={styles.appName}>BookChef</Text>
                 <Text style={styles.appSubtitle}>A sua Receita</Text>
 
-                <TouchableOpacity onPress={pickImage}>
-                    {userImage ? (
-                        <Image source={{ uri: userImage }} style={styles.userImage} />
-                    ) : (
-                        <View style={styles.placeholderImage}>
-                            <Gravatar email={user.email} size={300} style={styles.gravatar} />
-                        </View>
-                    )}
-                </TouchableOpacity>
                 
                 <Text style={styles.title}>Bem vindo</Text>
                 <Text style={styles.username}>{user.nome}</Text>

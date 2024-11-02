@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet, ImageBackground, Image, Scrol
 import { Asset } from 'expo-asset';
 import { router } from "expo-router";
 
-const backgroundImage = require('../../assets/images/kitchen_background_image.png');
+const backgroundImage = require('../../assets/images/rr.jpg');
 
 const recipesImages = [
   { id: '1', image: require('../../assets/images/pizza.jpg') },

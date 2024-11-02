@@ -3,7 +3,7 @@ import { useState } from "react";
 import { router } from "expo-router";
 import UsuarioService from "./service/usuarioService";
 
-const backgroundImage = require('../assets/images/kitchen_background_image.png');  
+const backgroundImage = require('../assets/images/rr.jpg');  
 
 export default function Cadastro() {
   const [email, setEmail] = useState('');

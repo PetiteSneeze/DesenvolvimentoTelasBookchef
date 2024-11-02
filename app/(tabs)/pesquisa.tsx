@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground, ScrollView, FlatList } from 'react-native';
 
-const backgroundImage = require('../../assets/images/kitchen_background_image.png');
+const backgroundImage = require('../../assets/images/rr.jpg');
 
 interface Recipe {
     id: string;

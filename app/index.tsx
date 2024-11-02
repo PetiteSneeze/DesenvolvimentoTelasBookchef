@@ -5,7 +5,7 @@ import { router } from "expo-router";
 import { useUser } from "./context/userContext";
 import UsuarioService from "./service/usuarioService";
 
-const backgroundImage = require('../assets/images/kitchen_background_image.png');
+const backgroundImage = require('../assets/images/rr.jpg');
 
 export default function Index() {
 
