@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground, ScrollView, Image, ActivityIndicator } from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground, ScrollView, Image, ActivityIndicator, FlatList } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
@@ -43,14 +43,13 @@ export default function CadastroReceita() {
     };
 
     const handleSaveOrUpdate = async () => {
-        const receita = { id: currentId, nome: nomeReceita, descricao:descricao, ingredientes:ingredientes, modoPreparo:modoPreparo, imagemUrl: image };
+        const receita = { id: currentId, nome: nomeReceita, descricao, ingredientes, modoPreparo, imagemUrl: image };
         try {
             if (editing && currentId) {
                 await editarReceita(currentId, receita);
             } else {
                 await salvarReceita(receita);
             }
-            console.log(JSON.stringify(receita));
             resetForm();
             buscarTodas();
         } catch (error) {
@@ -59,11 +58,15 @@ export default function CadastroReceita() {
     };
 
     const handleDelete = async (id: number) => {
-        await excluirReceita(id);
-        buscarTodas();
+        try {
+            await excluirReceita(id);
+            buscarTodas();
+        } catch (error) {
+            console.error("Erro ao excluir receita:", error);
+        }
     };
 
-    const handleEdit = (receita: Receita) => {
+    const handleEdit = (receita) => {
         setNomeReceita(receita.nome);
         setDescricao(receita.descricao);
         setIngredientes(receita.ingredientes);
@@ -90,6 +93,21 @@ export default function CadastroReceita() {
             </View>
         );
     }
+
+    const renderRecipeItem = ({ item }) => (
+        <View style={styles.recipeItem}>
+            <Text style={styles.recipeTitle}>{item.nome}</Text>
+            <Text style={styles.recipeDescription}>{item.descricao}</Text>
+            <View style={styles.recipeButtons}>
+                <TouchableOpacity onPress={() => handleEdit(item)}>
+                    <Text style={styles.editButton}>Editar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleDelete(item.id)}>
+                    <Text style={styles.deleteButton}>Excluir</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
 
     return (
         <ImageBackground source={backgroundImage} style={styles.background}>
@@ -155,8 +173,12 @@ export default function CadastroReceita() {
                     <Text style={styles.buttonText}>{editing ? 'Atualizar Receita' : 'Cadastrar Receita'}</Text>
                 </TouchableOpacity>
 
-                
-             
+                <FlatList
+                    data={receitas}
+                    renderItem={renderRecipeItem}
+                    keyExtractor={(item) => item.id.toString()}
+                    style={styles.list}
+                />
             </ScrollView>
         </ImageBackground>
     );
@@ -257,17 +279,27 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 15,
     },
+    list: {
+        width: '100%',
+        marginTop: 20,
+    },
     recipeItem: {
         backgroundColor: '#fff',
         width: '90%',
         borderRadius: 10,
         padding: 15,
         marginBottom: 10,
+        alignSelf: 'center',
     },
     recipeTitle: {
         fontSize: 20,
         fontWeight: 'bold',
         color: '#000',
+    },
+    recipeDescription: {
+        fontSize: 14,
+        color: '#777',
+        marginTop: 5,
     },
     recipeButtons: {
         flexDirection: 'row',

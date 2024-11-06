@@ -7,7 +7,6 @@ import { router } from "expo-router";
 
 const backgroundImage = require('../../assets/images/rr.jpg');
 
-// Tipagem para as rotas
 type RootStackParamList = {
   Receitas: undefined;
   CadastroReceita: {
@@ -24,8 +23,6 @@ type RootStackParamList = {
 export default function Receitas() {
     const { receitas, buscarReceitasDoUsuario, excluirReceita } = useReceitas();
     const { user } = useUser();
-    
-    // Define a navegação com tipagem para as rotas
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     useEffect(() => {
@@ -35,7 +32,6 @@ export default function Receitas() {
     }, [user]);
 
     const handleEdit = (receita) => {
-
         navigation.navigate("CadastroReceita", {
             id: receita.id,
             nome: receita.nome,
@@ -43,7 +39,7 @@ export default function Receitas() {
             ingredientes: receita.ingredientes,
             modoPreparo: receita.modoPreparo,
             imagemUrl: receita.imagemUrl,
-          });
+        });
     };
 
     const handleDelete = (id) => {
@@ -51,17 +47,16 @@ export default function Receitas() {
             "Confirmar Exclusão",
             "Você tem certeza de que deseja excluir esta receita?",
             [
-                {
-                    text: "Cancelar",
-                    style: "cancel"
-                },
+                { text: "Cancelar", style: "cancel" },
                 {
                     text: "Excluir",
                     style: "destructive",
                     onPress: async () => {
                         try {
                             await excluirReceita(id);
-                            buscarReceitasDoUsuario(user.id); // Atualiza a lista após exclusão
+                            if (user?.id) {
+                                buscarReceitasDoUsuario(user.id);
+                            }
                         } catch (error) {
                             console.error("Erro ao excluir receita:", error);
                         }
@@ -90,10 +85,6 @@ export default function Receitas() {
         router.push('/cadastroReceita');
     };
 
-    const pesquisar = () => {
-        router.push('/pesquisa');
-    };
-
     return (
         <ImageBackground source={backgroundImage} style={styles.background}>
             <View style={styles.overlayContainer}>
@@ -108,9 +99,6 @@ export default function Receitas() {
                     style={styles.list}
                 />
 
-                <TouchableOpacity style={styles.addButton} onPress={pesquisar}>
-                    <Text style={styles.addButtonText}>Pesquisar novas Receitas</Text>
-                </TouchableOpacity>
                 <TouchableOpacity style={styles.addButton} onPress={adicionarReceita}>
                     <Text style={styles.addButtonText}>Adicionar Receita</Text>
                 </TouchableOpacity>

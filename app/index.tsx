@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   inputSenha: {
     flex: 1,
     fontSize: 16,
-    color: "#333",
+    color: "black",
   },
   eyeIcon: {
     marginLeft: 10,
