@@ -1,18 +1,41 @@
 import { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, TextInput, StyleSheet, GestureResponderEvent, ImageBackground, TouchableWithoutFeedback, Keyboard } from "react-native";
-import { router } from "expo-router";
+import { Text, View, TouchableOpacity, TextInput, StyleSheet, GestureResponderEvent, ImageBackground, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
+import { useUser } from "./context/userContext";
+import UsuarioService from "./service/usuarioService"; // Importe o serviço de usuário
 
-const backgroundImage = require('../assets/images/rr.jpg')
+const backgroundImage = require('../assets/images/rr.jpg');
+const usuarioService = new UsuarioService(); // Instância do serviço
+
 export default function EditarUsuario() {
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [nome, setNome] = useState('');
+  const { nome: nomeParam, email: emailParam, id: idParam } = useLocalSearchParams();
+  const { setUser } = useUser();
 
-  const atualizarUsuario = (event: GestureResponderEvent): void => {
-    
-    console.log("Atualizar usuário:", { nome, email, senha });
-    router.push('/perfil'); 
-  }
+  const [nome, setNome] = useState(typeof nomeParam === 'string' ? nomeParam : nomeParam?.[0] || '');
+  const [email, setEmail] = useState(typeof emailParam === 'string' ? emailParam : emailParam?.[0] || '');
+  const [senha, setSenha] = useState('');
+  const userId = idParam ? Number(idParam) : 0;
+
+  const atualizarUsuario = async (event: GestureResponderEvent): Promise<void> => {
+    try {
+      const usuarioAtualizado = { id: userId, nome, email, senha };
+      await usuarioService.alterar(usuarioAtualizado); // Chama o método alterar
+
+      // Atualizar o contexto do usuário
+      setUser((prevUser) => ({
+        ...prevUser,
+        nome,
+        email,
+        senha,
+      }));
+
+      Alert.alert("Sucesso", "Usuário atualizado com sucesso!");
+      router.push('/perfil'); 
+    } catch (error) {
+      console.error("Erro ao atualizar usuário:", error);
+      Alert.alert("Erro", "Não foi possível atualizar o usuário.");
+    }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -35,10 +58,8 @@ export default function EditarUsuario() {
               placeholder="Email"
               placeholderTextColor="rgba(137, 137, 137, 0.65)"
               value={email}
-              onChangeText={setEmail}
               editable={false} 
             />
-
             <TextInput
               style={styles.input}
               placeholder="Nova Senha"

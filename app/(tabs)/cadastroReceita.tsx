@@ -4,20 +4,26 @@ import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
 import { Asset } from 'expo-asset';
 import { useReceitas } from "../context/receitasContext";
+import { useLocalSearchParams } from 'expo-router';
 
 const backgroundImage = require('../../assets/images/rr.jpg');
 
 export default function CadastroReceita() {
     const { receitas, buscarTodas, salvarReceita, editarReceita, excluirReceita } = useReceitas();
-    const [nomeReceita, setNomeReceita] = useState('');
-    const [descricao, setDescricao] = useState('');
-    const [ingredientes, setIngredientes] = useState('');
-    const [modoPreparo, setModoPreparo] = useState('');
-    const [tipoReceita, setTipoReceita] = useState('Doce');
-    const [image, setImage] = useState<string | null>(null);
+    
+    // Captura dos parâmetros enviados pela navegação
+    const { id, nome, descricao, ingredientes, modoPreparo, imagemUrl, tipoReceita: tipoReceitaParam } = useLocalSearchParams();
+
+    // Definindo o estado inicial com os valores dos parâmetros, se existirem
+    const [nomeReceita, setNomeReceita] = useState(nome || '');
+    const [descricaoReceita, setDescricaoReceita] = useState(descricao || '');
+    const [ingredientesReceita, setIngredientesReceita] = useState(ingredientes || '');
+    const [modoPreparoReceita, setModoPreparoReceita] = useState(modoPreparo || '');
+    const [tipoReceita, setTipoReceita] = useState(tipoReceitaParam || 'Doce');
+    const [image, setImage] = useState(imagemUrl || null);
     const [imageLoaded, setImageLoaded] = useState(false);
-    const [editing, setEditing] = useState(false);
-    const [currentId, setCurrentId] = useState<number | null>(null);
+    const [editing, setEditing] = useState(Boolean(id)); // Define se está em modo de edição com base no ID
+    const [currentId, setCurrentId] = useState(id ? Number(id) : null);
 
     const preloadImage = async () => {
         await Asset.loadAsync(backgroundImage);
@@ -43,7 +49,15 @@ export default function CadastroReceita() {
     };
 
     const handleSaveOrUpdate = async () => {
-        const receita = { id: currentId, nome: nomeReceita, descricao, ingredientes, modoPreparo, imagemUrl: image };
+        const receita = {
+            id: currentId,
+            nome: nomeReceita,
+            descricao: descricaoReceita,
+            ingredientes: ingredientesReceita,
+            modoPreparo: modoPreparoReceita,
+            imagemUrl: image,
+            tipoReceita
+        };
         try {
             if (editing && currentId) {
                 await editarReceita(currentId, receita);
@@ -66,22 +80,13 @@ export default function CadastroReceita() {
         }
     };
 
-    const handleEdit = (receita) => {
-        setNomeReceita(receita.nome);
-        setDescricao(receita.descricao);
-        setIngredientes(receita.ingredientes);
-        setModoPreparo(receita.modoPreparo);
-        setImage(receita.imagemUrl || null);
-        setCurrentId(receita.id);
-        setEditing(true);
-    };
-
     const resetForm = () => {
         setNomeReceita('');
-        setDescricao('');
-        setIngredientes('');
-        setModoPreparo('');
+        setDescricaoReceita('');
+        setIngredientesReceita('');
+        setModoPreparoReceita('');
         setImage(null);
+        setTipoReceita('Doce');
         setEditing(false);
         setCurrentId(null);
     };
@@ -127,15 +132,15 @@ export default function CadastroReceita() {
                     style={styles.input}
                     placeholder="Descrição"
                     placeholderTextColor="#aaa"
-                    value={descricao}
-                    onChangeText={setDescricao}
+                    value={descricaoReceita}
+                    onChangeText={setDescricaoReceita}
                 />
                 <TextInput
                     style={styles.textArea}
                     placeholder="Ingredientes"
                     placeholderTextColor="#aaa"
-                    value={ingredientes}
-                    onChangeText={setIngredientes}
+                    value={ingredientesReceita}
+                    onChangeText={setIngredientesReceita}
                     multiline={true}
                     numberOfLines={4}
                 />
@@ -143,8 +148,8 @@ export default function CadastroReceita() {
                     style={styles.textArea}
                     placeholder="Modo de Preparo"
                     placeholderTextColor="#aaa"
-                    value={modoPreparo}
-                    onChangeText={setModoPreparo}
+                    value={modoPreparoReceita}
+                    onChangeText={setModoPreparoReceita}
                     multiline={true}
                     numberOfLines={4}
                 />

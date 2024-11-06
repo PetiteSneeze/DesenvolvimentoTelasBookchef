@@ -1,17 +1,14 @@
-import { Text, View, TouchableOpacity, StyleSheet, ImageBackground, ActivityIndicator, Image } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, ImageBackground, ActivityIndicator } from "react-native";
 import { useState, useEffect } from "react";
-import * as ImagePicker from 'expo-image-picker'; 
 import { Asset } from 'expo-asset';
 import { router } from "expo-router";
 import { useUser } from "../context/userContext";
-import Gravatar from '@krosben/react-native-gravatar';
 
 const backgroundImage = require('../../assets/images/rr.jpg');
 
 export default function Perfil() {
     const { user, setUser } = useUser();
     const [imageLoaded, setImageLoaded] = useState(false);
-    const [userImage, setUserImage] = useState<string | null>(null); 
 
     const preloadImage = async () => {
         await Asset.loadAsync(backgroundImage);
@@ -22,7 +19,6 @@ export default function Perfil() {
         preloadImage();
     }, []);
 
-    
     const sair = () => {
         setUser({
             nome: '',
@@ -35,7 +31,14 @@ export default function Perfil() {
     };
 
     const editarUsuario = () => {
-        router.push('../editarUsuario');
+        router.push({
+            pathname: '../editarUsuario',
+            params: {
+                nome: user.nome,
+                email: user.email,
+                id: user.id,
+            },
+        });
     };
 
     if (!imageLoaded) {
@@ -49,11 +52,8 @@ export default function Perfil() {
     return (
         <ImageBackground source={backgroundImage} style={styles.background}>
             <View style={styles.overlayContainer}>
-                
                 <Text style={styles.appName}>BookChef</Text>
                 <Text style={styles.appSubtitle}>A sua Receita</Text>
-
-                
                 <Text style={styles.title}>Bem vindo</Text>
                 <Text style={styles.username}>{user.nome}</Text>
 
@@ -102,25 +102,6 @@ const styles = StyleSheet.create({
         color: '#fff',
         marginBottom: 80,
         textAlign: 'center',
-    },
-    userImage: {
-        width: 250,
-        height: 250,
-        borderRadius: 120, 
-        marginBottom: 120,
-    },
-    placeholderImage: {
-        width: 120,
-        height: 120,
-        borderRadius: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 20,
-    },
-    gravatar: {
-        width: 120,
-        height: 120,
-        borderRadius: 60,
     },
     title: {
         fontSize: 40,

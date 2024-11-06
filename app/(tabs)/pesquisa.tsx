@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground, ScrollView, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+import { useUser } from '../context/userContext';
+import ReceitasService from '../service/receitasService';
 
 const backgroundImage = require('../../assets/images/rr.jpg');
 
@@ -9,34 +11,35 @@ interface Recipe {
     description: string;
 }
 
-const recipesDatabase: Recipe[] = [
-    { id: '1', name: 'Pizza', description: 'Deliciosa pizza de queijo' },
-    { id: '2', name: 'Bolo de Chocolate', description: 'Bolo fofinho de chocolate' },
-    { id: '5', name: 'Pizza de Frango', description: 'Deliciosa pizza de frango com cebola' },
-    { id: '6', name: 'Bolo de Cenoura', description: 'Bolo fofo de cenoura' },
-    { id: '7', name: 'Suco de Laranja', description: 'Suco natural de laranja' },
-    { id: '3', name: 'Suco de Laranja', description: 'Suco natural de laranja' },
-    { id: '4', name: 'Pão Caseiro', description: 'Pão caseiro fresquinho' },
-    { id: '8', name: 'Pão de Queijo', description: 'Pão de queijo crocante' },
-    { id: '9', name: 'Pizza de Calabresa', description: 'Deliciosa pizza de calabresa e queijo' },
-    { id: '10', name: 'Bolo de Cenoura', description: 'Bolo fofo de cenoura' },
-];
-
 export default function PesquisaReceitas() {
+    const { user } = useUser();
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchResults, setSearchResults] = useState<Recipe[]>([]); 
+    const [searchResults, setSearchResults] = useState<Recipe[]>([]);
+    const receitasService = new ReceitasService();
 
+    useEffect(() => {
+        buscarTodasReceitas();
+    }, []);
+
+    const buscarTodasReceitas = async () => {
+        try {
+            const response = await receitasService.buscarTodas();
+            setSearchResults(response.data); // Certifique-se de que o `response.data` contém o array de receitas
+        } catch (error) {
+            console.error("Erro ao buscar receitas:", error);
+        }
+    };
+
+   
     const pesquisarReceitas = () => {
-       
-        const filteredRecipes = recipesDatabase.filter(recipe =>
-            recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
+        const query = searchQuery ? searchQuery.toLowerCase() : '';
+        const filteredRecipes = searchResults.filter(recipe =>
+            recipe.name && recipe.name.toLowerCase().includes(query)
         );
         setSearchResults(filteredRecipes);
     };
-
-    const salvarReceita = (id: string) => {
-        console.log(`Receita ${id} salva!`);
-    };
+    
+   
 
     return (
         <ImageBackground source={backgroundImage} style={styles.background}>
@@ -62,7 +65,6 @@ export default function PesquisaReceitas() {
                     <Text style={styles.buttonText}>Pesquisar</Text>
                 </TouchableOpacity>
 
-                
                 {searchResults.length > 0 && (
                     <View style={styles.resultsContainer}>
                         <Text style={styles.resultsTitle}>Resultados:</Text>
@@ -70,12 +72,7 @@ export default function PesquisaReceitas() {
                             <View key={recipe.id} style={styles.recipeCard}>
                                 <Text style={styles.recipeName}>{recipe.name}</Text>
                                 <Text style={styles.recipeDescription}>{recipe.description}</Text>
-                                <TouchableOpacity
-                                    style={styles.saveButton}
-                                    onPress={() => salvarReceita(recipe.id)}
-                                >
-                                    <Text style={styles.saveButtonText}>Salvar Receita</Text>
-                                </TouchableOpacity>
+                                
                             </View>
                         ))}
                     </View>
