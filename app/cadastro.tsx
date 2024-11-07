@@ -27,7 +27,7 @@ export default function Cadastro() {
       }
     ).catch(
         (error)=>{
-          alert("Erro ao cadastrar");
+          alert("Erro ao cadastrar, verifique os campos ou ja existe alguem utilizando esse email");
           console.log(error);
         }
     );

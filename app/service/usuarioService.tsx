@@ -13,7 +13,7 @@ class UsuarioService extends ApiService {
         if (usuario.id == 0) {
             return this.post('', usuario);
         } else {
-            return this.put(`/${usuario.id}`, usuario); // Agora incluímos o ID para alterar
+            return this.put(`/${usuario.id}`, usuario);
         }
     }
 
@@ -26,7 +26,7 @@ class UsuarioService extends ApiService {
     }
 
     alterar(usuario: any) {
-        return this.put(`/${usuario.id}`, usuario); // Método de alteração específico
+        return this.put(`/${usuario.id}`, usuario); 
     }
 }
 

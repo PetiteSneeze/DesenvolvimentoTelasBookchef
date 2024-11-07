@@ -1,7 +1,5 @@
 import { Tabs } from "expo-router";
-import Ionicons from '@expo/vector-icons/Ionicons';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 export default function LayoutTab() {
     return (
@@ -13,18 +11,16 @@ export default function LayoutTab() {
                 headerShown: false,
             }}
         >
-            {/* Tela de home */}
             <Tabs.Screen
                 name="home"
                 options={{
                     title: "Home",
                     tabBarIcon: ({ color }) => (
                         <Ionicons name="home" size={26} color={color} />
-                    )
+                    ),
                 }}
             />
 
-            {/* Tela de Perfil */}
             <Tabs.Screen
                 name="perfil"
                 options={{
@@ -35,7 +31,6 @@ export default function LayoutTab() {
                 }}
             />
 
-            {/* Tela de Receitas */}
             <Tabs.Screen
                 name="receitas"
                 options={{
@@ -45,27 +40,16 @@ export default function LayoutTab() {
                     ),
                 }}
             />
-            {/* Tela de cadastro de receitas */}
+
             <Tabs.Screen
                 name="cadastro"
                 options={{
-                    title: "Cadastrar",
+                    title: "Cadastrar Receita",
                     tabBarIcon: ({ color }) => (
-                        <FontAwesome5 name="clipboard-list" size={26} color={color} />
+                        <FontAwesome name="book" size={26} color={color} />
                     ),
                 }}
             />
-
-            <Tabs.Screen
-                name="pesquisa"
-                options={{
-                    title: "Pesquisar",
-                    tabBarIcon: ({ color }) => (
-                        <FontAwesome5 name="clipboard-list" size={26} color={color} />
-                    ),
-                }}
-            />
-
         </Tabs>
     );
 }

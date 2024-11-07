@@ -11,18 +11,16 @@ const backgroundImage = require('../../assets/images/rr.jpg');
 export default function CadastroReceita() {
     const { receitas, buscarTodas, salvarReceita, editarReceita, excluirReceita } = useReceitas();
     
-    // Captura dos parâmetros enviados pela navegação
     const { id, nome, descricao, ingredientes, modoPreparo, imagemUrl, tipoReceita: tipoReceitaParam } = useLocalSearchParams();
 
-    // Definindo o estado inicial com os valores dos parâmetros, se existirem
-    const [nomeReceita, setNomeReceita] = useState(nome || '');
-    const [descricaoReceita, setDescricaoReceita] = useState(descricao || '');
-    const [ingredientesReceita, setIngredientesReceita] = useState(ingredientes || '');
-    const [modoPreparoReceita, setModoPreparoReceita] = useState(modoPreparo || '');
-    const [tipoReceita, setTipoReceita] = useState(tipoReceitaParam || 'Doce');
-    const [image, setImage] = useState(imagemUrl || null);
+    const [nomeReceita, setNomeReceita] = useState(typeof nome === 'string' ? nome : nome?.[0] || '');
+    const [descricaoReceita, setDescricaoReceita] = useState(typeof descricao === 'string' ? descricao : descricao?.[0] || '');
+    const [ingredientesReceita, setIngredientesReceita] = useState(typeof ingredientes === 'string' ? ingredientes : ingredientes?.[0] || '');
+    const [modoPreparoReceita, setModoPreparoReceita] = useState(typeof modoPreparo === 'string' ? modoPreparo : modoPreparo?.[0] || '');
+    const [tipoReceita, setTipoReceita] = useState(typeof tipoReceitaParam === 'string' ? tipoReceitaParam : tipoReceitaParam?.[0] || 'Doce');
+    const [image, setImage] = useState(typeof imagemUrl === 'string' ? imagemUrl : imagemUrl?.[0] || null);
     const [imageLoaded, setImageLoaded] = useState(false);
-    const [editing, setEditing] = useState(Boolean(id)); // Define se está em modo de edição com base no ID
+    const [editing, setEditing] = useState(Boolean(id));
     const [currentId, setCurrentId] = useState(id ? Number(id) : null);
 
     const preloadImage = async () => {
@@ -78,6 +76,18 @@ export default function CadastroReceita() {
         } catch (error) {
             console.error("Erro ao excluir receita:", error);
         }
+    };
+
+  
+    const handleEdit = (receita) => {
+        setNomeReceita(receita.nome);
+        setDescricaoReceita(receita.descricao);
+        setIngredientesReceita(receita.ingredientes);
+        setModoPreparoReceita(receita.modoPreparo);
+        setImage(receita.imagemUrl || null);
+        setTipoReceita(receita.tipoReceita || 'Doce');
+        setCurrentId(receita.id);
+        setEditing(true);
     };
 
     const resetForm = () => {
@@ -168,12 +178,7 @@ export default function CadastroReceita() {
                     </View>
                 </View>
 
-                <TouchableOpacity style={styles.button} onPress={pickImage}>
-                    <Text style={styles.buttonText}>Selecionar Imagem</Text>
-                </TouchableOpacity>
-
-                {image && <Image source={{ uri: image }} style={styles.image} />}
-
+               
                 <TouchableOpacity style={styles.button} onPress={handleSaveOrUpdate}>
                     <Text style={styles.buttonText}>{editing ? 'Atualizar Receita' : 'Cadastrar Receita'}</Text>
                 </TouchableOpacity>
@@ -320,3 +325,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
+

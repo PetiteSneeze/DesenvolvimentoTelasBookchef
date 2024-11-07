@@ -1,6 +1,9 @@
 import ApiService from "./apiservice";
 
 class ReceitasService extends ApiService {
+    buscarTiposReceita() {
+        throw new Error('Method not implemented.');
+    }
     constructor() {
         super('/receitas');
     }

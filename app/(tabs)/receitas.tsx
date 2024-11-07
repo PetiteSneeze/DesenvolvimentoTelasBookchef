@@ -45,7 +45,7 @@ export default function Receitas() {
                         try {
                             await excluirReceita(id);
                             if (user?.id) {
-                                buscarReceitasDoUsuario(user.id); // Recarrega as receitas após exclusão
+                                buscarReceitasDoUsuario(user.id); 
                             }
                         } catch (error) {
                             console.error("Erro ao excluir receita:", error);
@@ -61,12 +61,7 @@ export default function Receitas() {
             <Text style={styles.recipeTitle}>{item.nome}</Text>
             <Text style={styles.recipeDescription}>{item.descricao}</Text>
             <View style={styles.actionButtons}>
-                <TouchableOpacity style={styles.editButton} onPress={() => handleEdit(item)}>
-                    <Text style={styles.actionText}>Editar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
-                    <Text style={styles.actionText}>Excluir</Text>
-                </TouchableOpacity>
+               
             </View>
         </View>
     );

@@ -48,20 +48,7 @@ export default function Index() {
 
 
       let retorno = true;
-      if (retorno) {
-
-        setUser({ email: email,
-                senha: senha,
-                nome: "André",//trocar de acordo com a api
-                id:1,//trocar de acordo com a api
-                logado: true
-           });
-
-        router.push('./(tabs)/home');
-      }
-      else {
-        alert('Email ou senha inválidos!');
-      }
+      
     }
     else {
        alert('Preencha todos os campos!');

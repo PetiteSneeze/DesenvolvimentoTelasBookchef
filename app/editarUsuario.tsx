@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, TextInput, StyleSheet, GestureResponderEvent, ImageBackground, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { useUser } from "./context/userContext";
-import UsuarioService from "./service/usuarioService"; // Importe o serviço de usuário
-
+import UsuarioService from "./service/usuarioService"; 
 const backgroundImage = require('../assets/images/rr.jpg');
-const usuarioService = new UsuarioService(); // Instância do serviço
+const usuarioService = new UsuarioService(); 
 
 export default function EditarUsuario() {
   const { nome: nomeParam, email: emailParam, id: idParam } = useLocalSearchParams();
@@ -19,9 +18,8 @@ export default function EditarUsuario() {
   const atualizarUsuario = async (event: GestureResponderEvent): Promise<void> => {
     try {
       const usuarioAtualizado = { id: userId, nome, email, senha };
-      await usuarioService.alterar(usuarioAtualizado); // Chama o método alterar
+      await usuarioService.alterar(usuarioAtualizado); 
 
-      // Atualizar o contexto do usuário
       setUser((prevUser) => ({
         ...prevUser,
         nome,

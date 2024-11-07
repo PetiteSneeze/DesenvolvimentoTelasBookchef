@@ -21,7 +21,8 @@ interface ReceitasContextType {
   editarReceita: (id: number, receita: Receita) => Promise<void>;
   excluirReceita: (id: number) => Promise<void>;
   buscarReceitaPorId: (id: number) => Promise<Receita | undefined>;
-  buscarReceitasDoUsuario: (usuarioId: number) => Promise<void>; // Adicionado
+  buscarReceitasDoUsuario: (usuarioId: number) => Promise<void>; 
+  
 }
 
 const ReceitasContext = createContext<ReceitasContextType | undefined>(undefined);
@@ -107,7 +108,7 @@ export default function ReceitasProvider({ children }: ReceitasProviderProps) {
                 editarReceita,
                 excluirReceita,
                 buscarReceitaPorId,
-                buscarReceitasDoUsuario, // Incluído no contexto
+                buscarReceitasDoUsuario, 
             }}
         >
             {children}
